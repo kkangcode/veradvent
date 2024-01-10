@@ -1,0 +1,18 @@
+#Core File (Items; Weapons; Spells; Locations; NPCs)
+#Items Format: itemname,description,Attribute:Value,moneyCost
+<Item>,Red Potion,Heals for 50HP,Heal:50,75
+#<Item>,Town Scroll,Teleports back to previous town,Teleport:1,100
+#Note: Inn Heal is Percentage, Not Points
+<Item>,Inn Room,Fully Heals HP,Heal:100,100
+<Item>,Sauna,Heals HP to Half,Heal:50,50
+#Location Format: locationname,description,Travel:travelLocation=travelTurn;travelLocation=travelTurn (multiples)
+<Location>,Stillings,"Village in the forest",Travel:Stillings-Philbrook Route=3
+#Venue Format: venuename,location,venuetype,otherDetails
+<Venue>,Stillings General Store,Stillings,Shop,Red Potion
+<Location>,Stillings-Philbrook Route,"Route between Stillings and Philbrook",Travel:Stillings=3;Philbrook=4
+<Location>,Philbrook,"Village at the crossroads",Travel:Stillings-Philbrook Route=4;Philbrook-Holloway Route=5
+<Venue>,Tabard Inn,Philbrook,Inn,Inn Room;Sauna
+<Location>,Philbrook-Holloway Route,"Route between Philbrook and Holloway",Travel:Philbrook=5;Holloway=2
+<Location>,Holloway,"Village by the coast with a decent sized harbor",Travel:Philbrook-Holloway Route=2
+<Venue>,Holloway Harbor,Holloway,Shop,Ship Ticket
+<Item>,Ship Ticket,Entry to Board the Ship,Heal:0,200

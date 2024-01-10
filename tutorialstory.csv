@@ -1,0 +1,24 @@
+#Scenario Format: scenarioname,location,objective,progressPoints
+<Scenario>,Start,Beginning,Stillings,Your adventure begins in Stillings.,0
+<Scenario>,Travel,Leaving for Philbrook,Stillings,Get the necessary supplies for your trip to Holloway.,1000
+#Objective Format: objectiveTask,objectiveType,objectiveReqStr
+<Objective>,Obtain 3 Red Potions,ItemCheck,Red Potion=3
+#<Objective>,Obtain Town Scroll,ItemCheck,Town Scroll=1
+<Scenario>,Travel,On the Way to Philbrook,Stillings-Philbrook Route,Make your way to Philbrook.,500
+<Objective>,Go to Stillings-Philbrook Route,Arrival,Stillings-Philbrook Route=0
+<Scenario>,Battle,Crossing the Troll Bridge,Stillings-Philbrook Route,You need to defeat the troll to continue on.,500
+<Enemy>,Troll,50,100,Minion,None,5,0
+<Scenario>,Travel,Continue On to Philbrook,Stillings-Philbrook Route,Continue on your way to Philbrook.,500
+<Objective>,Go to Philbrook,Arrival,Philbrook=0
+<Scenario>,Travel,Make Your Way to Holloway,Philbrook-Holloway Route,Go onwards to the route towards Holloway.,500
+<Objective>,Go to Philbrook-Holloway Route,Arrival,Philbrook-Holloway Route=0
+#<Scenario>,Battle,Sneak Attack by Band of Bandits,On the Road,A trio of bandits snuck up on you and want to steal your stuff!,1000
+#<Enemy>,Fire Bandit,100,100,Minion,Fire,10,5
+#<Enemy>,Wind Bandit,100,100,Minion,Wind,10,5
+#<Enemy>,Holy Bandit,100,100,Minion,Holy,10,5
+<Scenario>,Battle,Bear Comes Out of the Woods,Forest,A bear has awoken from hiberation and it is standing in your way!,1000
+<Enemy>,Angry Bear,200,100,Minion,None,25,10
+<Scenario>,Travel,Almost to Holloway,Holloway,Finish up travelling towards Holloway.,500
+<Objective>,Go to Holloway,Arrival,Holloway=0
+<Scenario>,Travel,Boarding the Ship,Holloway,Go to the Holloway Harbor to buy a ship ticket to win!,500
+<Objective>,Buy Ship Ticket to Board Ship,ItemCheck,Ship Ticket=1
