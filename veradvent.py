@@ -1,11 +1,34 @@
 from storylibrary import *
 import os
+import sys
 
 #Start up the story
 maxTurnCount = 50
-storyFile = "tutorialstory.csv"
+#Note: There should only be one core file in use
 coreFile = "corefile.csv"
-mainStory = Story(storyFile, coreFile, maxTurnCount, "debug.log")
+
+#Have the user pass the story file as an argument
+errorStr = "ERROR: Incorrect Story File\nUsage: python3 veradvent.py [Story File]\nExample: python3 veradvent.py tutorialstory.csv"
+try:
+    storyFile = sys.argv[1]
+    #Verify that it is a .csv file
+    fileExt = re.search("\.[a-z]+", storyFile).group()
+
+    if (fileExt != ".csv"):
+        print("ERROR: Incorrect File Type")
+        print("File Type Given: " + fileExt)
+        sys.exit()
+
+    #Load the story file into the story object
+    try:
+        mainStory = Story(storyFile, coreFile, maxTurnCount, "debug.log")
+    except:
+        print("ERROR: Failed to Load")
+        sys.exit()
+except:
+    #Any issues, exit out of the script early
+    print(errorStr)
+    sys.exit()
 
 heroClasses = ["Rook", "Knight", "Bishop"]
 elementalType = ["Wind", "Earth", "Shadow", "Water", "Fire", "Holy"]
