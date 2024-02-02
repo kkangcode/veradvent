@@ -62,6 +62,8 @@ mainStory.showStoryProgress()
 showCharacterStatus = False
 lastTurnSummary = "None"
 innRest = False
+#This flag is to keep track of the first attack has happened (for last attack option)
+firstAttackDone = False
 while (mainStory.checkStoryFinish() == False):
     #This will clear the terminal
     os.system('clear')
@@ -124,18 +126,32 @@ while (mainStory.checkStoryFinish() == False):
         mainStory.stagingArea.enemyParty.showRoster()
         #Have the character attack first for now (this will also have the option to select items)
         while (actionSelected == False):
-            #Option 0 - Attacks and Spells, Option 1 - Items
+            #Option 0 - Repeat Last Attack, Option 1 - Attacks and Spells, Option 2 - Items
             playerSelect = mainStory.battleMenu.selectChoice(True)
             if (playerSelect == 0):
+                #If this is the first battle turn, then do not proceed further
+                if (firstAttackDone != False):
+                    #Use the last attack stored
+                    if (enemyIndex != "NULL"):
+                        actionSelected = True
+                        enemyStatus, enemyIndex = mainStory.stagingArea.enemyParty.attackChar(heroAttack.attackPower, True, enemyIndex)
+                        heroName = mainStory.stagingArea.heroParty.rosterList[0].name
+                        lastTurnSummary = heroName + " Attacked With " + heroAttack.name + " For " + str(heroAttack.attackPower) + "HP on " + enemyStatus
+                    else:
+                        print("Previous Target Is Already Eliminated")
+                else:
+                    print("There Is No Previous Attack")
+            elif (playerSelect == 1):
                 heroAttack = mainStory.stagingArea.heroParty.rosterList[0].arsenalCase.chooseAttack(False)
                 #If the player selected to go back, then go back to the main menu
                 if (heroAttack.name != "BackMainMenu"):
                     actionSelected = True
+                    firstAttackDone = True
                     # ! Need debugLog output
-                    enemyStatus = mainStory.stagingArea.enemyParty.attackChar(heroAttack.attackPower)
+                    enemyStatus, enemyIndex = mainStory.stagingArea.enemyParty.attackChar(heroAttack.attackPower, False, "NULL")
                     heroName = mainStory.stagingArea.heroParty.rosterList[0].name
                     lastTurnSummary = heroName + " Attacked With " + heroAttack.name + " For " + str(heroAttack.attackPower) + "HP on " + enemyStatus
-            elif (playerSelect == 1):
+            elif (playerSelect == 2):
                 # ! Need debugLog output
                 heroItem = mainStory.stagingArea.heroParty.rosterList[0].backpack.selectItem(mainStory.stagingArea)
                 if (heroItem != "BackMainMenu"):
@@ -149,7 +165,7 @@ while (mainStory.checkStoryFinish() == False):
         for enemyChar in mainStory.stagingArea.enemyParty.rosterList:
             # ! Need debugLog output
             enemyAttack = enemyChar.arsenalCase.chooseAttack(True)
-            heroStatus = mainStory.stagingArea.heroParty.attackChar(enemyAttack.attackPower)
+            heroStatus, heroIndex = mainStory.stagingArea.heroParty.attackChar(enemyAttack.attackPower, False, "NULL")
             enemyName = enemyChar.name
             lastTurnSummary = lastTurnSummary + "\n" + enemyName + " Attacked With " + enemyAttack.name + " For " + str(enemyAttack.attackPower) + "HP on " + heroStatus
     elif (mainStory.currentScenarioType == "Travel"):
@@ -228,6 +244,8 @@ while (mainStory.checkStoryFinish() == False):
         showCharacterStatus = True
         #This is to make sure that a turn still passes after the character defeats the last enemy
         innRest = True
+        #This is set back to false again for the next battle
+        firstAttackDone = False
 
 if (mainStory.checkStoryFinish() == True):
     print("You win!")
