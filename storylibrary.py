@@ -273,10 +273,13 @@ class Roster:
         rosterIndex = currentRoster.selectChoice(True)
         return rosterIndex
     
-    def attackChar(self, attackPower):
+    def attackChar(self, attackPower, lastAttack, lastRosterIndex):
         #This is to attack someone on the given party
+        #If using the last attack on same target option, then bypass the selection
+        if (lastAttack == True):
+            rosterIndex = lastRosterIndex
         #If there is only one target, then default to that target
-        if (self.rosterTotal == 1): 
+        elif (self.rosterTotal == 1): 
             rosterIndex = 0
         else:
             print("Choose Target to Attack:")
@@ -291,8 +294,10 @@ class Roster:
         if (self.rosterList[rosterIndex].health.currentPosition < 1):
             enemyStatus = enemyStatus + "\nTarget Eliminated"
             self.removeRoster(rosterIndex)
+            #This is to ensure that the last attack cannot be repeated on a dead character
+            rosterIndex = "NULL"
 
-        return enemyStatus
+        return enemyStatus, rosterIndex
 
     def healChar(self, healPower):
         #If there is only one target, then default to that target
@@ -515,6 +520,7 @@ class Story:
 
         #Set up the battle and travel menus
         self.battleMenu = MultipleChoice("Battle Menu", [], False)
+        self.battleMenu.choices.append("Repeat Last Attack on Same Target")
         self.battleMenu.choices.append("Attacks and Spells")
         self.battleMenu.choices.append("Items")
         self.travelMenu = MultipleChoice("Travel Menu", [], False)
